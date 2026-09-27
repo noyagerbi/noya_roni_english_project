@@ -185,12 +185,17 @@ function answer(btn,choice,correct,x){
   btn.classList.add('wrong');lives--;streak=0;
   document.getElementById('feedback').textContent='❌ Not this time. Correct answer: '+correct;
  }
- setTimeout(()=>{index++;render()},1000);
+ setTimeout(()=>{index++;render()},5000);
 }
 function showHint(){
  if(locked)return;
  const x=deck[index];
- document.getElementById('feedback').textContent='💡 Hint: '+x.en;
+
+ if(mode==='he'){
+   document.getElementById('feedback').textContent='💡 Hint: '+x.en;
+ }else{
+   document.getElementById('feedback').textContent='💡 Hint: '+x.he;
+ }
 }
 function speak(){
  if(!deck[index])return;
