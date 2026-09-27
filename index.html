@@ -162,15 +162,28 @@ function render(){
  document.getElementById('streak').textContent=streak;
  document.getElementById('bar').style.width=((index/deck.length)*100)+'%';
  document.getElementById('feedback').textContent='';
+
  let correct, prompt;
- if(mode==='he'){correct=x.he;prompt='Choose the correct Hebrew translation:'}
- else {correct=x.en;prompt='Which English definition is correct?'}
+ if(mode==='he'){
+   correct=x.he;
+   prompt='Choose the correct Hebrew translation:';
+   document.getElementById('feedback').dataset.hint=x.en;
+ }else{
+   correct=x.en;
+   prompt='Which English definition is correct?';
+   document.getElementById('feedback').dataset.hint=x.he;
+ }
+
  document.getElementById('question').textContent=prompt;
+
  let pool=shuffle(WORDS.filter(y=>y.w!==x.w)).slice(0,3).map(y=>mode==='he'?y.he:y.en);
  let opts=shuffle([correct,...pool]);
  const box=document.getElementById('answers');box.innerHTML='';
  opts.forEach(o=>{
-  const b=document.createElement('button');b.textContent=o;b.onclick=()=>answer(b,o,correct,x);box.appendChild(b)
+  const b=document.createElement('button');
+  b.textContent=o;
+  b.onclick=()=>answer(b,o,correct,x);
+  box.appendChild(b)
  });
 }
 function answer(btn,choice,correct,x){
@@ -189,14 +202,8 @@ function answer(btn,choice,correct,x){
 }
 function showHint(){
  if(locked)return;
-
- const x=deck[index];
-
- if(mode==='he'){
-   document.getElementById('feedback').textContent='💡 Hint: '+x.en;
- } else {
-   document.getElementById('feedback').textContent='💡 Hint: '+x.he;
- }
+ const feedback=document.getElementById('feedback');
+ feedback.textContent='💡 Hint: '+feedback.dataset.hint;
 }
 function speak(){
  if(!deck[index])return;
