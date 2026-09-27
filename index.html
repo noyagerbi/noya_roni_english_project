@@ -189,12 +189,13 @@ function answer(btn,choice,correct,x){
 }
 function showHint(){
  if(locked)return;
+
  const x=deck[index];
 
  if(mode==='he'){
-  document.getElementById('feedback').textContent='💡 Hint: '+x.en;
- }else{
-  document.getElementById('feedback').textContent='💡 Hint: '+x.he;
+   document.getElementById('feedback').textContent='💡 Hint: '+x.en;
+ } else {
+   document.getElementById('feedback').textContent='💡 Hint: '+x.he;
  }
 }
 function speak(){
