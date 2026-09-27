@@ -151,7 +151,7 @@ function setMode(m){
 }
 function render(){
  const x=deck[index];
- document.getElementById('word').textContent = mode==='he' ? x.en : x.w;
+ document.getElementById('word').textContent=mode==='he'?x.en:x.he;
  document.getElementById('pos').textContent=x.pos;
  document.getElementById('score').textContent=score;
  document.getElementById('lives').textContent='❤️'.repeat(lives);
@@ -160,11 +160,11 @@ function render(){
  let correct,prompt;
 
  if(mode==='he'){
-   correct=x.w;
-   prompt='Choose the correct English word for this definition:';
+   correct=x.he;
+   prompt='Choose the correct Hebrew translation:';
  }else{
    correct=x.en;
-   prompt='Choose the correct English definition:';
+   prompt='Which English definition is correct?';
  }
 
  document.getElementById('prompt').textContent=prompt;
@@ -175,7 +175,7 @@ function render(){
      .filter(y=>y!==x)
      .sort(()=>Math.random()-.5)
      .slice(0,3)
-     .map(y=>mode==='he'?y.w:y.en)
+     .map(y=>mode==='he'?y.he:y.en)
  ].sort(()=>Math.random()-.5);
 
  const box=document.getElementById('answers');
