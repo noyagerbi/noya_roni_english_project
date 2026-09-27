@@ -201,9 +201,14 @@ function answer(btn,choice,correct,x){
  setTimeout(()=>{index++;render()},5000);
 }
 function showHint(){
- if(locked)return;
- const feedback=document.getElementById('feedback');
- feedback.textContent='💡 Hint: '+feedback.dataset.hint;
+ const x=deck[index];
+ if(!x)return;
+
+ if(mode==='he'){
+   document.getElementById('feedback').textContent='💡 Hint: '+x.en;
+ }else{
+   document.getElementById('feedback').textContent='💡 Hint: '+x.he;
+ }
 }
 function speak(){
  if(!deck[index])return;
