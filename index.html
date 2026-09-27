@@ -198,7 +198,7 @@ function answer(btn,choice,correct,x){
   btn.classList.add('wrong');lives--;streak=0;
   document.getElementById('feedback').textContent='❌ Not this time. Correct answer: '+correct;
  }
- setTimeout(()=>{index++;render()},5000);
+ setTimeout(()=>{index++;render()},3500);
 }
 function showHint(){
  const x=deck[index];
