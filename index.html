@@ -150,27 +150,41 @@ function setMode(m){
  start();
 }
 function render(){
- if(index>=deck.length || lives<=0){finish();return}
- locked=false;
  const x=deck[index];
- document.getElementById('word').textContent=x.w;
+ document.getElementById('word').textContent = mode==='he' ? x.en : x.w;
  document.getElementById('pos').textContent=x.pos;
- document.getElementById('count').textContent=index+1;
- document.getElementById('total').textContent=deck.length;
  document.getElementById('score').textContent=score;
- document.getElementById('lives').textContent=lives;
+ document.getElementById('lives').textContent='❤️'.repeat(lives);
  document.getElementById('streak').textContent=streak;
- document.getElementById('bar').style.width=((index/deck.length)*100)+'%';
- document.getElementById('feedback').textContent='';
- let correct, prompt;
- if(mode==='he'){correct=x.he;prompt='Choose the correct Hebrew translation:'}
- else {correct=x.en;prompt='Which English definition is correct?'}
- document.getElementById('question').textContent=prompt;
- let pool=shuffle(WORDS.filter(y=>y.w!==x.w)).slice(0,3).map(y=>mode==='he'?y.he:y.en);
- let opts=shuffle([correct,...pool]);
- const box=document.getElementById('answers');box.innerHTML='';
- opts.forEach(o=>{
-  const b=document.createElement('button');b.textContent=o;b.onclick=()=>answer(b,o,correct,x);box.appendChild(b)
+
+ let correct,prompt;
+
+ if(mode==='he'){
+   correct=x.w;
+   prompt='Choose the correct English word for this definition:';
+ }else{
+   correct=x.en;
+   prompt='Choose the correct English definition:';
+ }
+
+ document.getElementById('prompt').textContent=prompt;
+
+ const choices=[
+   correct,
+   ...deck
+     .filter(y=>y!==x)
+     .sort(()=>Math.random()-.5)
+     .slice(0,3)
+     .map(y=>mode==='he'?y.w:y.en)
+ ].sort(()=>Math.random()-.5);
+
+ const box=document.getElementById('answers');
+ box.innerHTML='';
+ choices.forEach(c=>{
+  const b=document.createElement('button');
+  b.textContent=c;
+  b.onclick=()=>answer(c,correct,b);
+  box.appendChild(b);
  });
 }
 function answer(btn,choice,correct,x){
@@ -190,8 +204,9 @@ function answer(btn,choice,correct,x){
 function showHint(){
  if(locked)return;
  const x=deck[index];
+
  if(mode==='he'){
-   document.getElementById('feedback').textContent='💡 Hint: '+x.en;
+   document.getElementById('feedback').textContent='💡 Hint: The answer is an English word.';
  }else{
    document.getElementById('feedback').textContent='💡 Hint: '+x.he;
  }
